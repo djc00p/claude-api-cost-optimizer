@@ -1,16 +1,20 @@
 ---
+
 name: claude-api-cost-optimizer
-description: "Minimize Anthropic Claude API costs through model selection, prompt caching, batching, and cost tracking. Trigger phrases: reduce API costs, optimize Claude spending, save on API calls, Claude cost optimization, cheaper Claude models."
-metadata: {"clawdbot":{"emoji":"💰","requires":{"bins":[]},"env":["ANTHROPIC_API_KEY"],"os":["linux","darwin","win32"],"homepage":"https://clawhub.com/djc00p/claude-api-cost-optimizer"}}
+description: "Minimize Anthropic Claude API costs through model selection, prompt caching, batching, and cost tracking. ⚠️ Enables local caching and cost logging — review file permissions and exclude secrets. Trigger phrases: reduce API costs, optimize Claude spending, save on API calls, Claude cost optimization, cheaper Claude models."
+metadata: {"clawdbot":{"emoji":"\ud83d\udcb0","requires":{"bins":[]},"env":["ANTHROPIC_API_KEY"],"os":["linux","darwin","win32"],"homepage":"https://clawhub.com/djc00p/claude-api-cost-optimizer","version":"1.0.4"}}
 ---
 
+
 # Claude API Cost Optimizer
+
+> ⚠️ **Local Data Warning:** This skill creates `~/.claude_cache/`, `costs.log`, and `batch_results.jsonl` which may contain source code, API responses, and prompts. Set `chmod 600` on these files, never cache secrets/PII, and add cache directories to `.gitignore`.
 
 Cut Claude API costs by 70–90% using intelligent model selection, caching, and batching.
 
 ## Quick Start
 
-1. **Audit your current API calls** — identify which tasks use Opus or Sonnet that could use Haiku. Model selection alone saves 10–18x on simple tasks.
+1. **Audit your current API calls** — identify which tasks use Opus or Sonnet that could use Haiku. Model selection alone saves 10–18x on simple tasks. Ensure `ANTHROPIC_API_KEY` is set in your environment (required).
 2. Pick the cheapest model tier for each task: Haiku (cheapest) → Sonnet (mid) → Opus (most expensive, use sparingly). See `references/pricing.md` for current rates.
 3. Enable prompt caching for repeated context (system prompts, codebases) by adding `"cache_control": {"type": "ephemeral"}` to message blocks
 4. Implement cost reporting — track `input_tokens`, `output_tokens`, and cache metrics from API responses
@@ -70,6 +74,16 @@ cost = (usage.input_tokens * INPUT_RATE +
         usage.cache_read_input_tokens * CACHE_READ_RATE +
         usage.output_tokens * OUTPUT_RATE)
 ```
+
+## Security Checklist
+
+Before using cost tracking and local caching:
+- [ ] Set `chmod 600 ~/.claude_cache/` and all log files
+- [ ] Never cache content containing secrets, credentials, or PII
+- [ ] Set a short TTL (`max_age_hours`) and clear cache regularly
+- [ ] Add cache directories to `.gitignore`
+- [ ] Use encrypted volumes or ephemeral storage in CI environments
+- [ ] Audit cached content periodically for sensitive data leaks
 
 ## References
 

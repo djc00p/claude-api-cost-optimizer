@@ -1,3 +1,4 @@
+
 # Implementation Patterns
 
 > **Security note — local caching:** Patterns in this file cache API responses and codebases to local files (e.g. `~/.claude_cache/`, `costs.log`, `batch_results.jsonl`). These files may contain source code, API responses, or other sensitive data.

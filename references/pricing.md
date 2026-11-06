@@ -1,3 +1,4 @@
+
 # Pricing & Cost Optimization
 
 ## Cache Break-Even Analysis
@@ -5,7 +6,7 @@
 Cache writes cost ~25% MORE than regular input tokens, but cache reads cost 90% LESS. It pays off after just 1–2 reuses.
 
 **Formula:**
-```
+```text
 break_even_reads = cache_write_cost / (regular_cost - cache_read_cost)
 ```
 
@@ -136,7 +137,7 @@ break_even_reads = cache_write_cost / (regular_cost - cache_read_cost)
 - No caching, separate API calls
 - No batching
 
-```
+```text
 50 PRs × 8K input + 2K output per PR
 Model: Opus at 50 separate calls
 Cost per day: 50 × $0.075 = $3.75
@@ -149,7 +150,7 @@ Cost per month: ~$112.50
 3. **Batching** → Group 5 PRs per batch API call
 4. **Local caching** → Skip re-reviews of unchanged commits
 
-```
+```text
 Breakdown:
 - System prompt cache (write once): 2K at $3.75/M = $0.0075
 - Per-batch call: 5 PRs × 8K input = 40K tokens
@@ -200,7 +201,7 @@ High-frequency requests (>1K calls/min) trigger rate limiting (429 errors).
 
 Log all requests to measure savings over time.
 
-```
+```text
 timestamp | model | input_tokens | output_tokens | cache_read | cache_write | cost_usd | task_type
 2026-03-29 10:00:00 | haiku | 1200 | 500 | 0 | 2500 | 0.0048 | format
 2026-03-29 10:01:15 | sonnet | 8000 | 2000 | 5000 | 0 | 0.0243 | refactor
@@ -219,7 +220,7 @@ timestamp | model | input_tokens | output_tokens | cache_read | cache_write | co
 
 **Expected savings from optimization:**
 
-```
+```text
 Savings % = (C_base - C_opt) / C_base × 100
 
 Where:
